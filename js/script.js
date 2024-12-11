@@ -143,6 +143,37 @@ function removeItemCart(name, size) {
   }
 }
 
+// Selecionar os elementos
+const cashPaymentRadio = document.getElementById("cash");
+const changeRequiredCheckbox = document.getElementById("change-required");
+const changeAmountSection = document.getElementById("change-amount-section");
+
+// Ouvir a mudança na seleção de pagamento
+document.querySelectorAll('input[name="payment-method"]').forEach((input) => {
+  input.addEventListener("change", function () {
+    if (cashPaymentRadio.checked) {
+      // Mostrar a opção de troco se "Dinheiro" for selecionado
+      document.getElementById("change-section").classList.remove("hidden");
+    } else {
+      // Esconder a opção de troco se outro método for selecionado
+      document.getElementById("change-section").classList.add("hidden");
+      document.getElementById("change-amount-section").classList.add("hidden");
+    }
+  });
+});
+
+// Ouvir a mudança no checkbox "Precisa de troco?"
+changeRequiredCheckbox.addEventListener("change", function () {
+  if (this.checked) {
+    // Mostrar o campo para digitar o valor de troco
+    changeAmountSection.classList.remove("hidden");
+  } else {
+    // Esconder o campo de digitação de valor de troco
+    changeAmountSection.classList.add("hidden");
+  }
+});
+
+// Adicionar a lógica no checkout
 checkoutBtn.addEventListener("click", function () {
   const isOpen = checkRestaurantOpen();
   if (!isOpen) {
@@ -186,6 +217,20 @@ checkoutBtn.addEventListener("click", function () {
     paymentWarn.classList.add("hidden");
   }
 
+  // Se o pagamento for em dinheiro, verifica se precisa de troco
+  let changeRequired = "";
+  let changeAmount = "";
+  if (selectedPaymentMethod === "Dinheiro") {
+    if (changeRequiredCheckbox.checked) {
+      changeRequired = "Precisa de troco.";
+      // Obter o valor do troco, se for preenchido
+      const changeAmountInput = document.getElementById("change-amount");
+      changeAmount = changeAmountInput.value ? `Troco para: R$ ${parseFloat(changeAmountInput.value).toFixed(2)}` : "";
+    } else {
+      changeRequired = "Não precisa de troco.";
+    }
+  }
+
   // Calcular o total
   let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
@@ -201,9 +246,22 @@ checkoutBtn.addEventListener("click", function () {
     })
     .join("\n");
 
-  // Adicionar as informações do cliente e do pedido
+  // Obter o horário atual em Manaus (UTC -4)
+  const manausTime = new Date().toLocaleString("pt-BR", {
+    timeZone: "America/Manaus",
+    hour12: false,
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+  });
+
+  // Adicionar as informações do cliente, horário, pagamento e pedido
   const message = encodeURIComponent(
-    `Pedido:\n\nInformações do Cliente:\nNome: ${document.getElementById("customer-name").value}\nCelular: ${document.getElementById("customer-phone").value}\nEndereço: ${addressInput.value}\n\n----------------------\nForma de Pagamento: ${selectedPaymentMethod}\n----------------------\n\n${cartItems}\nTotal: R$ ${total.toFixed(2)}`
+    `Pedido:\n\nInformações do Cliente:\nNome: ${document.getElementById("customer-name").value}\nCelular: ${document.getElementById("customer-phone").value}\nEndereço: ${addressInput.value}\n\n----------------------\n\nForma de Pagamento: ${selectedPaymentMethod}\n${changeRequired}\n${changeAmount}\n----------------------\n\nHorário do Pedido: ${manausTime}\n----------------------\n\n${cartItems}\nTotal: R$ ${total.toFixed(2)}`
   );
 
   const phone = "5592982128930";
@@ -212,6 +270,7 @@ checkoutBtn.addEventListener("click", function () {
   cart = [];
   updateCartModal();
 });
+
 
 
 // Função para adicionar bebidas ao carrinho (sem tamanho)
