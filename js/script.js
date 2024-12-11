@@ -143,7 +143,7 @@ function removeItemCart(name, size) {
   }
 }
 
-checkoutBtn.addEventListener("click", function() {
+checkoutBtn.addEventListener("click", function () {
   const isOpen = checkRestaurantOpen();
   if (!isOpen) {
     Toastify({
@@ -168,34 +168,51 @@ checkoutBtn.addEventListener("click", function() {
     return;
   }
 
+  // Verifica o método de pagamento selecionado
+  const paymentMethodInputs = document.querySelectorAll('input[name="payment-method"]');
+  const paymentWarn = document.getElementById("payment-warn");
+  let selectedPaymentMethod = null;
+
+  paymentMethodInputs.forEach((input) => {
+    if (input.checked) {
+      selectedPaymentMethod = input.value;
+    }
+  });
+
+  if (!selectedPaymentMethod) {
+    paymentWarn.classList.remove("hidden");
+    return;
+  } else {
+    paymentWarn.classList.add("hidden");
+  }
+
   // Calcular o total
   let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
+  const cartItems = cart
+    .map((item) => {
+      let tamanho = "";
 
-  const cartItems = cart.map((item) => {
-// Inicializamos a variável de tamanho vazia
- let tamanho = '';
+      if (item.size && !(item.name.toLowerCase().includes("coca") || item.name.toLowerCase().includes("bebida"))) {
+        tamanho = ` |  ${item.size}`;
+      }
 
-   // Verificamos se o item tem um tamanho e se ele não é uma bebida
-   if (item.size && !(item.name.toLowerCase().includes('coca') || item.name.toLowerCase().includes('bebida'))) {
-    tamanho = ` |  ${item.size}`;  // Adicionamos o tamanho apenas se o item não for uma bebida
-}
+      return `Produto: ${item.name} | Quantidade: (${item.quantity})${tamanho} | Preço Unitário: R$ ${item.price.toFixed(2)}\n`;
+    })
+    .join("\n");
 
-// Retornamos a mensagem formatada com ou sem tamanho
+  // Adicionar as informações do cliente e do pedido
+  const message = encodeURIComponent(
+    `Pedido:\n\nInformações do Cliente:\nNome: ${document.getElementById("customer-name").value}\nCelular: ${document.getElementById("customer-phone").value}\nEndereço: ${addressInput.value}\n\n----------------------\nForma de Pagamento: ${selectedPaymentMethod}\n----------------------\n\n${cartItems}\nTotal: R$ ${total.toFixed(2)}`
+  );
 
-return `Produto: ${item.name} | Quantidade: (${item.quantity})${tamanho} | Preço Unitário: R$ ${item.price.toFixed(2)}\n`;
-}).join("\n");
-    //return `Produto: ${item.name} | Quantidade: (${item.quantity}) | Tamanho: ${item.size || ''} | Preço Unitário: R$ ${item.price.toFixed(2)}\n`;
-  //}).join("\n");
-
-  const message = encodeURIComponent(`Pedido: \n${cartItems}  \nTotal: R$ ${total.toFixed(2)} \nEndereço de Entrega: ${addressInput.value}`);
   const phone = "5592982128930";
-
   window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
 
   cart = [];
   updateCartModal();
 });
+
 
 // Função para adicionar bebidas ao carrinho (sem tamanho)
 document.querySelectorAll(".drink-add-to-cart-btn").forEach(button => {
@@ -295,7 +312,7 @@ addressInput.addEventListener("input", function(event){
  function checkRestaurantOpen(){
   const data = new Date();
   const hora = data.getHours();
-  return hora  >= 17 && hora < 24; 
+  return hora  >= 15 && hora < 24; 
   //true = restaurante está aberto
 }
 

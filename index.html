@@ -606,8 +606,100 @@
   </div>
   <!--FIM MENU-->
   
+
+
+
+
+
+
+<!--MODAL CART-->
+<div class="bg-black/60 w-full h-full fixed top-0 left-0 z-[99] items-center justify-center hidden" id="cart-modal">
+
+  <div class="bg-white p-5 rounded-md min-w-[90%] md:min-w-[600px]">
+    <h2 class="text-center font-bold text-2xl mb-2">Meu carrinho</h2>
+
+    <!-- Mensagem inicial -->
+    <p class="text-center font-semibold text-lg text-black-400">Pizzaria Ruben</p>
+
+    <!-- Campos para nome e número de celular -->
+    <p class="font-bold mt-4">Nome</p>
+    <input type="text" placeholder="Digite seu nome..." id="customer-name"
+      class="w-full border-2 p-1 rounded my-1">
+    <p class="text-red-500 hidden" id="name-warn">Digite seu nome!</p>
+
+    <p class="font-bold mt-4">Número de celular</p>
+    <input type="text" placeholder="Digite seu número de celular..." id="customer-phone"
+      class="w-full border-2 p-1 rounded my-1">
+    <p class="text-red-500 hidden" id="phone-warn">Digite seu número de celular!</p>
+
+    <div id="cart-items" class="flex justify-between mb-2 flex-col"></div>
+
+    <p class="font-bold">Total: <span id="cart-total">0.00</span></p>
+
+    <p class="font-bold mt-4">Endereço de entrega</p>
+    <input type="text" placeholder="Digite seu endereço completo..." id="address"
+      class="w-full border-2 p-1 rounded my-1">
+    <p class="text-red-500 hidden" id="address-warn">Digite seu endereço completo!</p>
+
+    <!-- Opções de pagamento -->
+    <p class="font-bold mt-4">Forma de pagamento</p>
+    <div class="my-2">
+      <label class="block">
+        <input type="radio" name="payment-method" value="Débito" id="payment-debit" class="mr-2">
+        Débito
+      </label>
+      <label class="block">
+        <input type="radio" name="payment-method" value="Pix" id="payment-pix" class="mr-2">
+        PIX
+      </label>
+      <label class="block">
+        <input type="radio" name="payment-method" value="Crédito" id="payment-credit" class="mr-2">
+        Crédito
+      </label>
+    </div>
+    <p class="text-red-500 hidden" id="payment-warn">Selecione uma forma de pagamento!</p>
+
+    <div class="flex items-center justify-between mt-5 w-full">
+      <button id="close-modal-btn">Fechar</button>
+      <button id="checkout-btn" class="bg-green-500 text-white px-4 py-1 rounded">Finalizar pedido</button>
+    </div>
+  </div>
+
+</div>
+<!--FIM MODAL CART-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <!--MODAL CART-->
-  <div class="bg-black/60 w-full h-full fixed top-0 left-0 z-[99]  items-center justify-center hidden  " id="cart-modal">
+  <!--<div class="bg-black/60 w-full h-full fixed top-0 left-0 z-[99]  items-center justify-center hidden  " id="cart-modal">
   
     <div class="bg-white p-5  rounded-md min-w-[90%] md:min-w-[600px]">
       <h2 class="text-center font-bold text-2xl mb-2">Meu carrinho </h2>
@@ -630,7 +722,7 @@
   
     </div>
   
-  </div>
+  </div>-->
   <!--FIM MODAL CART-->
   
   <!--BUTTON CART FOOTER-->
