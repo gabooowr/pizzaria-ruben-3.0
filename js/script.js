@@ -261,7 +261,7 @@ checkoutBtn.addEventListener("click", function () {
 
   // Adicionar as informações do cliente, horário, pagamento e pedido
   const message = encodeURIComponent(
-    `Pedido:\n\nInformações do Cliente:\nNome: ${document.getElementById("customer-name").value}\nCelular: ${document.getElementById("customer-phone").value}\nEndereço: ${addressInput.value}\n\n----------------------\n\nForma de Pagamento: ${selectedPaymentMethod}\n${changeRequired}\n${changeAmount}\n----------------------\n\nHorário do Pedido: ${manausTime}\n----------------------\n\n${cartItems}\nTotal: R$ ${total.toFixed(2)}`
+    `Pizzaria Ruben\n\nInformações do Cliente:\nNome: ${document.getElementById("customer-name").value}\nCelular: ${document.getElementById("customer-phone").value}\nEndereço: ${addressInput.value}\n\n----------------------\n\nForma de Pagamento: ${selectedPaymentMethod}\n${changeRequired}\n${changeAmount}\n----------------------\n\nHorário do Pedido: ${manausTime}\n----------------------\n\n${cartItems}\nTotal: R$ ${total.toFixed(2)}`
   );
 
   const phone = "5592982128930";
