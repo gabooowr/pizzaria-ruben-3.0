@@ -8,6 +8,8 @@ const closeModalBtn = document.getElementById("close-modal-btn")
 const cartCounter = document.getElementById("cart-count")
 const addressInput = document.getElementById("address")
 const addressWarn = document.getElementById("address-warn")
+const namewarn = document.getElementById("name-warn")
+const phonewarn = document.getElementById("phone-warn")
 
 let cart = [];
 
@@ -191,11 +193,25 @@ checkoutBtn.addEventListener("click", function () {
     return;
   }
 
-  if (cart.length === 0) return;
 
+
+   addressInput.addEventListener("input", function(event){
+     let inputValue = event.target.value;
+  
+     if(inputValue !== ""){
+       addressInput.classList.remove("border-red-500")
+       addressWarn.classList.add("hidden")
+    
+     }
+   })
+
+  if (cart.length === 0) return;
   if (addressInput.value === "") {
     addressWarn.classList.remove("hidden");
     addressInput.classList.add("border-red-500");
+  
+    
+
     return;
   }
 
@@ -338,14 +354,6 @@ function removeItemCart(name){
 
 
 
-addressInput.addEventListener("input", function(event){
-  let inputValue = event.target.value;
-
-  if(inputValue !== ""){
-    addressInput.classList.remove("border-red-500")
-    addressWarn.classList.add("hidden")
-  }
-})
   // Função para remover uma bebida do carrinho
 
 
@@ -371,7 +379,7 @@ addressInput.addEventListener("input", function(event){
  function checkRestaurantOpen(){
   const data = new Date();
   const hora = data.getHours();
-  return hora  >= 15 && hora < 24; 
+  return hora  >= 17 && hora < 24; 
   //true = restaurante está aberto
 }
 
