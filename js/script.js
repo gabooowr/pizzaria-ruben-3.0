@@ -202,6 +202,7 @@ checkoutBtn.addEventListener("click", function () {
        addressInput.classList.remove("border-red-500")
        addressWarn.classList.add("hidden")
     
+       
      }
    })
 
